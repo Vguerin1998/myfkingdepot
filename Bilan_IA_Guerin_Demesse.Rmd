@@ -1,17 +1,18 @@
 ---
 title: "Bilan IA"
-author: "V. GUERIN T. DEMESSE B. SAUZE"
+author: "V. GUERIN - T. DEMESSE - B. SAUZE"
 date: "06/05/2020"
+default: pdf_document
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
   html_document:
     fig_caption: yes
     number_sections: no
     toc: no
     toc_depth: 3
     toc_float: yes
-  pdf_document:
-    toc: yes
-    toc_depth: '3'
 ---
 
 ```{r setup, include=FALSE}
@@ -63,8 +64,26 @@ On arrive à un reconnaissance globale de 69% des images. Avec un bon discerneme
 
 Lorsque l'on observe la base d'apprentissage, on peut expliquer le faible taux de reconnaissance des mouches par une variabilité des clichés en terme de fond, d'angles de vues et de type de mouches.Contrairement aux images de cafards et d'araignées qui sont plus homogènes.
 
-# **Etude des reseaux precedements créés:**
+# **Etude des réseaux précédement créés:**
 
-graph
+```{r, echo=F, message = FALSE, results='hide', fig.height=4}
+library(ggplot2)
+library(dplyr)
+
+models <- read.csv("models.csv")
+
+models$Nom <-paste(models$Nombre.de.neurones.dans.la.couche.complètement.connectée,models$Dataset.d.entraînement,sep=".")
+
+filter(models, Nom %in% c("128. catdog", "128.savane50", "128savane100", "512.savane100"))
+
+models %>%
+  ggplot( aes(x=Nombre.passes, y=Pourcentage.de.réussite, group=Nom, color=Nom)) +
+  geom_line() +
+  ggtitle("% de réussite en fonction du nombre de passes") +
+  ylab("% de réussites")+
+  xlab("Nombre de passes")
+```
+
+
 
 # **Remarques:**
