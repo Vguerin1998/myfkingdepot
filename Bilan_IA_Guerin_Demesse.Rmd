@@ -1,17 +1,17 @@
 ---
 title: "Bilan IA"
-author: "V. GUERIN T. DEMESSE"
+author: "V. GUERIN T. DEMESSE B. SAUZE"
 date: "06/05/2020"
 output:
+  html_document:
+    fig_caption: yes
+    number_sections: no
+    toc: no
+    toc_depth: 3
+    toc_float: yes
   pdf_document:
     toc: yes
     toc_depth: '3'
-  html_document:
-    fig_caption: yes
-    number_sections: yes
-    toc: yes
-    toc_depth: 3
-    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -21,17 +21,50 @@ knitr::opts_chunk$set(echo = TRUE)
 # **Nos essais :**
 
 ## *Domaine*
+
+Notre reconnaissance d'image est basée sur l'identification de 2 nuisibles. Et d'un prédateur permettant de limiter l'impact des ravageurs.
+
 ## *Catégories*
+
+Nous avons opté pour 3 categories :
+
+* Le cafard
+* La mouche
+* L'araignée
+
 ## *Constitution du corpus d'apprentissage*
-## *Réseau neuronal*
-## *Fichiers de sauvegarde*
 
-# **
+Nous avons récupéré les 100 premières images de la requête google pour "flie", "spider" et "cockroach"
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+#query = ["flie", "cockroach", "spider"]
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Les images ainsi telechargées sont triées manuellement car les moteurs de recherche sortents des images qui ne correspondent pas a la requete de facon à tromper les algorithmes de deep learning qui tenteraient de passer par ses moteurs de recherche.
+
+Les image correspondent globalement mais apres plusieurs resultats d'images, il y a de plus en plus d'images qui ne sont pas directement associées a la requête.
+
+On place ensuite 80% des images dans un dossier training qui constitue la base d'entrainement du reseau neuronal. On compare ensuite la correspondance avec les 20% des images placées dans un dossier test. Le réseau ainsi créé est basé sur l'association des images du dossier test avec celles du dossier trainning pour lesquels nous sommes assurés de la correspondance.        
+
+## *Réseau neuronal*
+
+On teste l'efficacité de notre réseau neuronal avec 10 passes d'apprentissage à partir du corpus d'images initialement créé.
+
+La sortie python obtenue sur le test du reseau:
+```{r}
+#CNN  multiclass  ( 3 catégories)
+#cockroach  :  17 / 20 ( 85 %)
+#flie  :  4 / 12 ( 33 %)
+#spider  :  9 / 11 ( 81 %)
+#Global :  30 / 43 ( 69 %)
+```
+
+On arrive à un reconnaissance globale de 69% des images. Avec un bon discernement des cafards et des araignées, mais pas des mouches.
+
+Lorsque l'on observe la base d'apprentissage, on peut expliquer le faible taux de reconnaissance des mouches par une variabilité des clichés en terme de fond, d'angles de vues et de type de mouches.Contrairement aux images de cafards et d'araignées qui sont plus homogènes.
+
+# **Etude des reseaux precedements créés:**
+
+graph
+
+# **Remarques:**
