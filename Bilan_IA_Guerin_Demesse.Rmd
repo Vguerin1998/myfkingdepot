@@ -1,10 +1,12 @@
 ---
 title: "Bilan IA"
 author: "V. GUERIN - T. DEMESSE - B. SAUZE"
-date: "06/05/2020"
+date: '`r format(Sys.time(), "%d-%m-%Y")`'
+toc-title: 'Sommaire'
 default: pdf_document
 output:
   pdf_document:
+    number_sections: true 
     toc: yes
     toc_depth: '3'
   html_document:
@@ -23,11 +25,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## *Domaine*
 
-Notre reconnaissance d'image est basée sur l'identification de 2 nuisibles. Et d'un prédateur permettant de limiter l'impact des ravageurs.
+Notre reconnaissance d'image est basée sur l'identification de 2 nuisibles, en plus d'un prédateur permettant de limiter l'impact des ravageurs.
 
 ## *Catégories*
 
-Nous avons opté pour 3 categories :
+Nous avons opté pour 3 catégories :
 
 * Le cafard
 * La mouche
@@ -41,17 +43,17 @@ Nous avons récupéré les 100 premières images de la requête google pour "fli
 #query = ["flie", "cockroach", "spider"]
 ```
 
-Les images ainsi telechargées sont triées manuellement car les moteurs de recherche sortents des images qui ne correspondent pas a la requete de facon à tromper les algorithmes de deep learning qui tenteraient de passer par ses moteurs de recherche.
+Les images ainsi téléchargées sont triées manuellement car les moteurs de recherche sortent des images qui ne correspondent pas à la requête, de facon à tromper les algorithmes de Deep Learning qui tenteraient de passer par ces moteurs de recherche.
 
-Les image correspondent globalement mais apres plusieurs resultats d'images, il y a de plus en plus d'images qui ne sont pas directement associées a la requête.
+Les image correspondent globalement, mais après plusieurs résultats, il y a de plus en plus d'images qui ne sont pas directement associées a la requête.
 
-On place ensuite 80% des images dans un dossier training qui constitue la base d'entrainement du reseau neuronal. On compare ensuite la correspondance avec les 20% des images placées dans un dossier test. Le réseau ainsi créé est basé sur l'association des images du dossier test avec celles du dossier trainning pour lesquels nous sommes assurés de la correspondance.        
+On place ensuite 80% des images dans un dossier "training" qui constitue la base d'entraînement du réseau neuronal. On compare ensuite la correspondance avec les 20% d'images placées dans un dossier "test". Le réseau ainsi créé est basé sur l'association des images du dossier test avec celles du dossier "training" pour lesquels nous sommes assurés de la correspondance.        
 
 ## *Réseau neuronal*
 
 On teste l'efficacité de notre réseau neuronal avec 10 passes d'apprentissage à partir du corpus d'images initialement créé.
 
-La sortie python obtenue sur le test du reseau:
+La sortie python obtenue sur le test du réseau nous donne ceci :
 ```{r}
 #CNN  multiclass  ( 3 catégories)
 #cockroach  :  17 / 20 ( 85 %)
@@ -60,19 +62,24 @@ La sortie python obtenue sur le test du reseau:
 #Global :  30 / 43 ( 69 %)
 ```
 
-On arrive à un reconnaissance globale de 69% des images. Avec un bon discernement des cafards et des araignées, mais pas des mouches.
+On arrive à une reconnaissance globale de 69% des images. Avec un bon discernement des cafards et des araignées, mais pas des mouches.
 
-Lorsque l'on observe la base d'apprentissage, on peut expliquer le faible taux de reconnaissance des mouches par une variabilité des clichés en terme de fond, d'angles de vues et de type de mouches.Contrairement aux images de cafards et d'araignées qui sont plus homogènes.
+Lorsque l'on observe la base d'apprentissage, on peut expliquer le faible taux de reconnaissance des mouches par une variabilité des clichés en terme de fond, d'angles de vue et de type de mouches. Contrairement aux images de cafards et d'araignées qui sont plus homogènes.
 
-# **Etude des réseaux précédement créés:**
+\newpage
 
-```{r, echo=F, message = FALSE, results='hide', fig.height=4}
+# **Étude des réseaux précédement créés:**
+
+## En fonction du nombre de passes
+
+```{r, echo=T, message = FALSE, results='hide', fig.height=4}
 library(ggplot2)
 library(dplyr)
 
 models <- read.csv("models.csv")
 
-models$Nom <-paste(models$Nombre.de.neurones.dans.la.couche.complètement.connectée,models$Dataset.d.entraînement,sep=".")
+models$Nom <-paste(models$Nombre.de.neurones.dans.la.couche.complètement.connectée,
+                   models$Dataset.d.entraînement,sep=".")
 
 filter(models, Nom %in% c("128. catdog", "128.savane50", "128savane100", "512.savane100"))
 
@@ -84,6 +91,46 @@ models %>%
   xlab("Nombre de passes")
 ```
 
+\newpage
 
+## En fonction du nombre d'images de test
+
+```{r echo=T, fig.height=4, message=FALSE, results='hide'}
+models <- read.csv("models.csv")
+
+op <- par(bg = "lightgrey", fg = "white", lwd = 2)
+
+ plot(models$Nombre.d.images.de.test, models$Pourcentage.de.réussite,  
+     pch = 20, cex = 0.8, col = "red", 
+     xlab = "Nombre d'images de test",
+     ylab = "% de réussite")
+
+lines(lowess(models$Nombre.d.images.de.test, models$Pourcentage.de.réussite), col = "black")
+title("% de réussite en fonction du nombre d'images de test") 
+```
+
+\newpage
+
+## En fonction du nombre d'images d'entraînement
+
+```{r echo=T, fig.height=4, message=FALSE, results='hide'}
+library(ggplot2)
+library(dplyr)
+
+models <- read.csv("models.csv")
+
+op <- par(bg = "lightgrey", fg = "white", lwd = 2)
+
+plot(models$Nombre.d.images.d.entraînement, models$Pourcentage.de.réussite,  
+     pch = 20, cex = 0.8, col = "red", 
+     xlab = "Nombre d'images d'entraînement",
+     ylab = "% de réussite")
+
+lines(lowess(models$Nombre.d.images.d.entraînement, models$Pourcentage.de.réussite), col = "black")
+title("% de réussite en fonction du nombre d'images d'entraînement") 
+```
+
+\newpage
 
 # **Remarques:**
+
