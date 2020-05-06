@@ -1,6 +1,6 @@
 ---
 title: "Bilan IA"
-author: "V. GUERIN T. DEMESSE"
+author: "V. GUERIN T. DEMESSE B. SAUZE"
 date: "06/05/2020"
 output:
   pdf_document:
