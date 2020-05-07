@@ -5,16 +5,16 @@ date: '`r format(Sys.time(), "%d-%m-%Y")`'
 toc-title: 'Sommaire'
 default: pdf_document
 output:
-  pdf_document:
-    number_sections: true 
-    toc: yes
-    toc_depth: '3'
   html_document:
     fig_caption: yes
     number_sections: no
     toc: no
     toc_depth: 3
     toc_float: yes
+  pdf_document:
+    number_sections: true 
+    toc: yes
+    toc_depth: '3'
 ---
 
 ```{r setup, include=FALSE}
@@ -111,7 +111,7 @@ models <- read.csv("models.csv")
  title("% de réussite en fonction du nombre de classes")  
 ```
 
-... qui montre une corrélation directe entre le nombre de classes et la réussite. On voit ici que les ensembles de classe 2 ont une intervalle de réussite
+... qui montre une corrélation directe entre le nombre de classes et la réussite. On voit ici que les ensembles de classe 2 ont un intervalle de réussite
 
 \newpage
 
@@ -130,4 +130,8 @@ res.pca <- PCA(models, graph = TRUE)
 
 ```
 
+On observe grace au cercle des correllation que le nombre de classe est corréllé negativement avec le pourcentage de reussite ce qui est visible dans les premiers graphiques générés ci dessus.
 
+On remarque en revanche, les variables telles que le nombre d'images d'entrainement et le nombre d'images test sont corellés positivements avec un poids important vis à vis du pourcentage de réussite donc ils influent fortement sur ce dernier. 
+
+En une phrase : plus le nombre d'images dans la base est important plus la reussite du test est élevée.   
