@@ -98,39 +98,20 @@ models %>%
 ```{r echo=T, fig.height=4, message=FALSE, results='hide'}
 models <- read.csv("models.csv")
 
-op <- par(bg = "lightgrey", fg = "white", lwd = 2)
-
- plot(models$Nombre.d.images.de.test, models$Pourcentage.de.réussite,  
-     pch = 20, cex = 0.8, col = "red", 
-     xlab = "Nombre d'images de test",
-     ylab = "% de réussite")
-
-lines(lowess(models$Nombre.d.images.de.test, models$Pourcentage.de.réussite), col = "black")
-title("% de réussite en fonction du nombre d'images de test") 
+ op <- par(bg = "lightgrey", fg = "white", lwd = 2)
+ 
+ plot(models$Nombre.de.classes, models$Pourcentage.de.réussite,  
+      pch = 20, cex = 0.8, col = "red", 
+      xlab = "Nombre de classes",
+      ylab = "% de réussite")
+ 
+ lines(lowess(models$Nombre.de.classes, models$Pourcentage.de.réussite), col = "black")
+ title("% de réussite en fonction du nombre de classes")  
 ```
 
 \newpage
 
 ## En fonction du nombre d'images d'entraînement
-
-```{r echo=T, fig.height=4, message=FALSE, results='hide'}
-library(ggplot2)
-library(dplyr)
-
-models <- read.csv("models.csv")
-
-op <- par(bg = "lightgrey", fg = "white", lwd = 2)
-
-plot(models$Nombre.d.images.d.entraînement, models$Pourcentage.de.réussite,  
-     pch = 20, cex = 0.8, col = "red", 
-     xlab = "Nombre d'images d'entraînement",
-     ylab = "% de réussite")
-
-lines(lowess(models$Nombre.d.images.d.entraînement, models$Pourcentage.de.réussite), col = "black")
-title("% de réussite en fonction du nombre d'images d'entraînement") 
-```
-
-\newpage
 
 ```{r echo=T, fig.height=4, message=FALSE, results='hide'}
 library("FactoMineR")
@@ -144,8 +125,6 @@ models$Dataset.de.test <- NULL
 res.pca <- PCA(models, graph = TRUE)
 
 ```
-
-\newpage
 
 # **Remarques:**
 
