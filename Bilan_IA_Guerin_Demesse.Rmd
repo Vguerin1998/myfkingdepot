@@ -91,7 +91,7 @@ models %>%
   xlab("Nombre de passes")
 ```
 
-On constate ici, que 2 ensembles ont un pourcentage de réussite significativement plus élevé que les 2 autres. Il s'agit de ceux qui possèdent 2 classes, tandis que les ensembles avec un pourcentage de réussite faible ont 9 classes chacun. Ce qui ce vérifie dans le graphique suivant...
+On constate ici, que 2 ensembles (128.catdog & 128.savane50) ont un pourcentage de réussite significativement plus élevé que les 2 autres (128.savane100 & 512.savane100). Il s'agit de ceux qui possèdent 2 classes, tandis que les ensembles avec un pourcentage de réussite faible ont 9 classes chacun. Ce qui ce vérifie dans le graphique suivant...
 
 \newpage
 
@@ -111,7 +111,11 @@ models <- read.csv("models.csv")
  title("% de réussite en fonction du nombre de classes")  
 ```
 
-... qui montre une corrélation directe entre le nombre de classes et la réussite. On voit ici que les ensembles de classe 2 ont une intervalle de réussite
+... qui montre une corrélation directe entre le nombre de classes et la réussite. On voit ici que les ensembles de classe 2 ont une intervalle de réussite comprise entre [72% - 63%] pour une moyenne µ = 66% et une population de N = 6 ensembles, alors que les ensembles de classe 9 ont un intervalle de réussite moyennement beaucoup plus faible avec µ = 20%, et un intervalle très étendu de [60% - 5%], mais avec une population de N = 18 ensembles. 
+
+Les ensembles de classes 9 ont donc un pourcentage de réussite très hétérogène qui se distinguent en 2 clusters, bien identifiables sur ce graphique. Tandis que les ensembles de classe 2 sont bien plus homogènes.
+
+Cependant, au vu des fortes disparités de représentativité des nombres de classes (3 fois plus de classes 9 que de classe 2), l'influence de ce paramètre est partagée entre plusieurs autres facteurs, ce que nous permet de constater une ACP de ces données...
 
 \newpage
 
