@@ -91,6 +91,8 @@ models %>%
   xlab("Nombre de passes")
 ```
 
+On constate ici, que 2 ensembles ont un pourcentage de réussite significativement plus élevé que les 2 autres. Il s'agit de ceux qui possèdent 2 classes, tandis que les ensembles avec un pourcentage de réussite faible ont 9 classes chacun. Ce qui ce vérifie dans le graphique suivant...
+
 \newpage
 
 ## En fonction du nombre d'images de test
@@ -109,6 +111,8 @@ models <- read.csv("models.csv")
  title("% de réussite en fonction du nombre de classes")  
 ```
 
+... qui montre une corrélation directe entre le nombre de classes et la réussite. On voit ici que les ensembles de classe 2 ont une intervalle de réussite
+
 \newpage
 
 ## En fonction du nombre d'images d'entraînement
@@ -125,7 +129,5 @@ models$Dataset.de.test <- NULL
 res.pca <- PCA(models, graph = TRUE)
 
 ```
-
-# **Remarques:**
 
 
