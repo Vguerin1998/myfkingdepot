@@ -132,5 +132,21 @@ title("% de réussite en fonction du nombre d'images d'entraînement")
 
 \newpage
 
+```{r echo=T, fig.height=4, message=FALSE, results='hide'}
+library("FactoMineR")
+library("factoextra")
+
+models <- read.csv("models.csv")
+
+models$Dataset.d.entraînement <- NULL
+models$Dataset.de.test <- NULL
+
+res.pca <- PCA(models, graph = TRUE)
+
+```
+
+\newpage
+
 # **Remarques:**
+
 
