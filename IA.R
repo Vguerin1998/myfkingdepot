@@ -3,6 +3,8 @@ library(babynames) # provide the dataset: a dataframe called babynames
 library(dplyr)
 library("FactoMineR")
 library("factoextra")
+library(ade4)
+library(shiny)
 
 models <- read.csv("models.csv")
 
@@ -46,4 +48,8 @@ filter(models, Nombre.de.classes %in% c("9", "2"))
  fviz_contrib(res.pca, choice = "var", axes = 2, top = 10)
  fviz_pca_var(res.pca, col.var = "black", title="ACP des corrélations entre les variables")
  
+ acp2 <- dudi.pca(models , scannf= F,scale=FALSE,,nf=3)
+ s.corcircle(acp2$c1, xax = 1, yax = 2);mtext("Variabilité sur les axes 1 et 2")
+ s.label(acp2$li, xax = 2, yax = 3);mtext("Variabilité sur les axes 2 et 3")
+ s.corcircle(acp2$c1, xax = 2, yax = 3);mtext("Variabilité sur les axes 2 et 3")
  
